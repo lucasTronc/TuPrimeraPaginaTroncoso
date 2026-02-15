@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from core import saludar
+# Importamos la función saludar desde el archivo views de la carpeta core
+from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('saludar/', saludar),
+    path('saludar/', views.saludar),
 ]
