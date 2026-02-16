@@ -1,0 +1,8 @@
+{% extends "core/base.html" %}
+{% block contenido %}
+<h2>Buscar Publicación</h2>
+<form action="{% url 'buscar_post' %}" method="GET">
+    <input type="text" name="titulo" placeholder="Escribí el título...">
+    <button type="submit">Buscar</button>
+</form>
+{% endblock %}

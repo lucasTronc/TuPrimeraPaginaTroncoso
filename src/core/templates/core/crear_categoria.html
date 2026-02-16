@@ -1,0 +1,13 @@
+html
+{% extends "core/base.html" %}
+
+{% block contenido %}
+<h2>Crear nueva Categoría</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar Categoría</button>
+</form>
+<br>
+<a href="{% url 'index' %}">Volver al inicio</a>
+{% endblock %}

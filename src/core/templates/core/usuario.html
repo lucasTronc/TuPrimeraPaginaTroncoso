@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}  
+
+{% block titulo %}Lista de Usuarios{% endblock %} 
+
+{% block contenido %}
+    <h1>Lista de Usuarios de mi DB</h1>
+    
+    <ul>
+        {% for u in usuario %}
+            <li>{{ u.nombre }} {{ u.apellido }}</li>
+        {% empty %}
+            <li>No hay usuarios registrados.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
