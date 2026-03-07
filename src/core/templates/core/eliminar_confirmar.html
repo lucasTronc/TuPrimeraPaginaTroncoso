@@ -1,0 +1,10 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h2>¿Estás seguro de eliminar este post?</h2>
+<p>Vas a borrar: <strong>{{ post.titulo }}</strong></p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" style="color: red;">Sí, eliminar definitivamente</button>
+    <a href="{% url 'index' %}">Cancelar</a>
+</form>
+{% endblock %}

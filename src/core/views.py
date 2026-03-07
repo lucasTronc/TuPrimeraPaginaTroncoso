@@ -3,9 +3,12 @@ from .models import Usuario, Post, Categoria
 from .forms import UsuarioForm
 from .models import Post, Categoria 
 from .forms import PostForm, CategoriaForm 
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.forms import UserCreationForm
 
 def inicio(request):
-    return render(request, "core/index.html")
+    posts = Post.objects.all() 
+    return render(request, "core/index.html", {"posts": posts})
 
 def usuario(request):
     # Vista para VER la lista
@@ -22,7 +25,7 @@ def crear_usuario(request):
                 nombre=form.cleaned_data["nombre"],
                 apellido=form.cleaned_data["apellido"]
             )
-            return redirect("usuarios") # Nos manda a la lista después de guardar
+            return redirect("usuarios") # manda a la lista después de guardar
     else:
         form = UsuarioForm()
     return render(request, "core/crear_usuario.html", {"form": form})
@@ -59,3 +62,37 @@ def crear_categoria(request):
     else:
         form = CategoriaForm()
     return render(request, "core/crear_categoria.html", {"form": form})
+
+def editar_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post) # 'instance' carga los datos actuales
+        if form.is_valid():
+            form.save() # Al usar ModelForm, esto es más simple
+            return redirect("index")
+    else:
+        form = PostForm(instance=post)
+    return render(request, "core/crear_post.html", {"form": form, "editando": True})
+
+# --- ELIMINAR POST ---
+def eliminar_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        post.delete()
+        return redirect("index")
+    return render(request, "core/eliminar_confirmar.html", {"post": post})
+
+#--- función de registro ---
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'core/register.html', {'form': form})
+
+#--- devuelve un HTML con mi info ---
+def about(request):
+    return render(request, "core/about.html")
